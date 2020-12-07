@@ -30,13 +30,13 @@ class PublishLookup {
 
   republishLookups() {
     const { collection, sub, lookups, lookupFields } = this;
-
-    const addedPrimaryDocIds = sub._documents.get(collection._name);
+    const collectionName = collection._name;
+    const addedPrimaryDocIds = sub._documents[collectionName];
 
     this.lookupObservers.forEach(observer => observer.stop());
 
     if (addedPrimaryDocIds) {
-      const primaryDocsIds = Array.from(addedPrimaryDocIds.keys());
+      const primaryDocsIds = Object.keys(addedPrimaryDocIds);
 
       const primaryDocs = collection
         .find({ _id: { $in: primaryDocsIds } }, { fields: lookupFields })
